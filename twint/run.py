@@ -66,7 +66,7 @@ class Twint:
                     self.feed, self.init = feed.Json(response)
                 elif self.config.Comments:
                     last_position = self.init
-                    self.feed, self.init = feed.Json(response, last_position)
+                    self.feed, self.init = feed.comments(response, last_position)
                 break
             except TimeoutError as e:
                 if self.config.Proxy_host.lower() == "tor":
@@ -267,6 +267,10 @@ def Search(config, callback=None):
         storage.panda._autoget("tweet")
 
 def Comments(config):
-    logme.debug(__name__ + ':Search')
+
+    assert config.Username, 'Provide a username (the username field is case sensitive).'
+    assert config.Tweet_id, 'Provide a tweet ID (as number).'
+
+    logme.debug(__name__ + ':Comments')
     config.Comments = True
     run(config)

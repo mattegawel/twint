@@ -37,16 +37,20 @@ def profile(response):
 
     return feed, feed[-1]["data-item-id"]
 
-# def Json(response):
-#     logme.debug(__name__+':Json')
-#     json_response = loads(response)
-#     html = json_response["items_html"]
-#     soup = BeautifulSoup(html, "html.parser")
-#     feed = soup.find_all("div", "tweet")
-#     return feed, json_response["min_position"]
-
-def Json(response, last_position=None):
+def Json(response):
     logme.debug(__name__+':Json')
+    json_response = loads(response)
+
+    html = json_response["items_html"]
+    soup = BeautifulSoup(html, "html.parser")
+
+    feed = soup.find_all("div", "tweet")
+    min_position = json_response["min_position"]
+
+    return feed, min_position
+
+def comments(response, last_position=None):
+    logme.debug(__name__+':comments')
     json_response = loads(response)
 
     html = json_response["items_html"]
