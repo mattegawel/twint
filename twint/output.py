@@ -145,6 +145,9 @@ async def Tweets(tweets, location, config, conn, url=''):
     elif config.TwitterSearch:
         logme.debug(__name__+':Tweets:TwitterSearch')
         await checkData(tweets, location, config, conn)
+    elif config.Comments:
+        logme.debug(__name__ + ':Tweets:Comments')
+        await checkData(tweets, location, config, conn)
     else:
         logme.debug(__name__+':Tweets:else')
         if int(tweets["data-user-id"]) == config.User_id:

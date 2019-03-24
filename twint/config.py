@@ -4,7 +4,6 @@ class Config:
     Search = None
     Geo = ""
     Location = False
-    Near = None
     Lang = None
     Output = None
     Elasticsearch = None
@@ -43,7 +42,6 @@ class Config:
     Index_follow = "twintgraph"
     Index_users = "twintuser"
     Index_type = "items"
-    Debug = False
     Retries_count = 10
     Resume = None
     Images = False
@@ -64,3 +62,6 @@ class Config:
     Get_replies = False
     Near = ""
     Custom_query = ""
+    Tweet_id = None
+    Comments = False
+

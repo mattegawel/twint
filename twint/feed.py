@@ -44,3 +44,20 @@ def Json(response):
     soup = BeautifulSoup(html, "html.parser")
     feed = soup.find_all("div", "tweet")
     return feed, json_response["min_position"]
+
+def comments(response, last_position=None):
+    logme.debug(__name__+':comments')
+    json_response = loads(response)
+
+    html = json_response["items_html"]
+    soup = BeautifulSoup(html, "html.parser")
+
+    feed = soup.find_all("div", "tweet")
+    min_position = json_response["min_position"]
+
+    # In case of usage of the comments endpoint, the behaviour is a little different
+    # than in the standard case (None flag starts the whole procedure again)
+    if not last_position:
+        return [], None
+
+    return feed, min_position
