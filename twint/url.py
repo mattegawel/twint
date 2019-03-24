@@ -49,6 +49,11 @@ async def Profile(username, init):
 
     return url
 
+async def Comments(username, tweet_id, init):
+    logme.debug(__name__ + ':Comments')
+    url = f"{base}/{username}/conversation/{tweet_id}?max_position={init}"
+    return url
+
 async def Search(config, init):
     logme.debug(__name__+':Search')
     url = f"{base}/search/timeline"

@@ -44,3 +44,15 @@ def Json(response):
     soup = BeautifulSoup(html, "html.parser")
     feed = soup.find_all("div", "tweet")
     return feed, json_response["min_position"]
+
+def JsonComments(response):
+    logme.debug(__name__+':JsonComments')
+    json_response = loads(response)
+
+    html = json_response["items_html"]
+    min_position = json_response["min_position"]
+
+    print(html)
+    print(min_position)
+
+    return html, min_position

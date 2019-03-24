@@ -64,6 +64,8 @@ class Twint:
                         self.feed, self.init = feed.profile(response)
                 elif self.config.TwitterSearch:
                     self.feed, self.init = feed.Json(response)
+                elif self.config.Comments:
+                    self.feed, self.init = feed.JsonComments(response)
                 break
             except TimeoutError as e:
                 if self.config.Proxy_host.lower() == "tor":
@@ -131,6 +133,10 @@ class Twint:
                 self.count += 1
                 await output.Tweets(tweet, "", self.config, self.conn)
 
+    async def comments(self):
+        logme.debug(__name__ + ':Twint:profileFull')
+        await self.Feed()
+
     async def main(self, callback=None):
 
         task = ensure_future(self.run())  # Might be changed to create_task in 3.7+.
@@ -183,6 +189,9 @@ class Twint:
                     elif self.config.TwitterSearch:
                         logme.debug(__name__+':Twint:main:twitter-search')
                         await self.tweets()
+                    elif self.config.Comments:
+                        logme.debug(__name__ + ':Twint:main:comments')
+                        await self.comments()
                 else:
                     logme.debug(__name__+':Twint:main:no-more-tweets')
                     break
@@ -251,3 +260,8 @@ def Search(config, callback=None):
     run(config, callback)
     if config.Pandas_au:
         storage.panda._autoget("tweet")
+
+def Comments(config):
+    logme.debug(__name__ + ':Search')
+    config.Comments = True
+    run(config)

@@ -83,9 +83,13 @@ async def RequestUrl(config, init, headers = []):
         elif config.Followers:
             logme.debug(__name__+':RequestUrl:Followers')
             _url = await url.Followers(config.Username, init)
+        elif config.Comments:
+            logme.debug(__name__ + ':RequestUrl:Comments')
+            _url = await url.Comments(config.Username, config.Tweet_id, init)
         else:
             logme.debug(__name__+':RequestUrl:Favorites')
             _url = await url.Favorites(config.Username, init)
+
         response = await MobileRequest(_url, connector=_connector)
 
     if config.Debug:
