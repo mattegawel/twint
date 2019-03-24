@@ -65,7 +65,7 @@ class Twint:
                 elif self.config.TwitterSearch:
                     self.feed, self.init = feed.Json(response)
                 elif self.config.Comments:
-                    self.feed, self.init = feed.JsonComments(response)
+                    self.feed, self.init = feed.Json(response)
                 break
             except TimeoutError as e:
                 if self.config.Proxy_host.lower() == "tor":
@@ -134,8 +134,12 @@ class Twint:
                 await output.Tweets(tweet, "", self.config, self.conn)
 
     async def comments(self):
-        logme.debug(__name__ + ':Twint:profileFull')
+        logme.debug(__name__ + ':Twint:comments')
         await self.Feed()
+        for comment in self.feed:
+            self.count += 1
+            # TODO: Implement something what can allow convert tweet's div to a class
+            await output.Tweets(comment, "", self.config, self.conn)
 
     async def main(self, callback=None):
 

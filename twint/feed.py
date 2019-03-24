@@ -37,22 +37,28 @@ def profile(response):
 
     return feed, feed[-1]["data-item-id"]
 
+# def Json(response):
+#     logme.debug(__name__+':Json')
+#     json_response = loads(response)
+#     html = json_response["items_html"]
+#     soup = BeautifulSoup(html, "html.parser")
+#     feed = soup.find_all("div", "tweet")
+#     return feed, json_response["min_position"]
+
 def Json(response):
     logme.debug(__name__+':Json')
     json_response = loads(response)
+
     html = json_response["items_html"]
     soup = BeautifulSoup(html, "html.parser")
+
     feed = soup.find_all("div", "tweet")
-    return feed, json_response["min_position"]
-
-def JsonComments(response):
-    logme.debug(__name__+':JsonComments')
-    json_response = loads(response)
-
-    html = json_response["items_html"]
     min_position = json_response["min_position"]
+    has_more_items = json_response["has_more_items"]
 
-    print(html)
-    print(min_position)
+    # In case of usage of the comments endpoint, the behaviour is a little different
+    # than in the standard case (None flag starts the whole procedure again)
+    if not has_more_items:
+        return [], None
 
-    return html, min_position
+    return feed, min_position
