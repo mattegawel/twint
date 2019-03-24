@@ -65,7 +65,8 @@ class Twint:
                 elif self.config.TwitterSearch:
                     self.feed, self.init = feed.Json(response)
                 elif self.config.Comments:
-                    self.feed, self.init = feed.Json(response)
+                    last_position = self.init
+                    self.feed, self.init = feed.Json(response, last_position)
                 break
             except TimeoutError as e:
                 if self.config.Proxy_host.lower() == "tor":

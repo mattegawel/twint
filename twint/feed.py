@@ -45,7 +45,7 @@ def profile(response):
 #     feed = soup.find_all("div", "tweet")
 #     return feed, json_response["min_position"]
 
-def Json(response):
+def Json(response, last_position=None):
     logme.debug(__name__+':Json')
     json_response = loads(response)
 
@@ -54,11 +54,10 @@ def Json(response):
 
     feed = soup.find_all("div", "tweet")
     min_position = json_response["min_position"]
-    has_more_items = json_response["has_more_items"]
 
     # In case of usage of the comments endpoint, the behaviour is a little different
     # than in the standard case (None flag starts the whole procedure again)
-    if not has_more_items:
+    if not last_position:
         return [], None
 
     return feed, min_position
